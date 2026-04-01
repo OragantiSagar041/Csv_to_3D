@@ -1,0 +1,9 @@
+Entity Name,Level,Material,LenX,LenY,LenZ,X,Y,Z,plank_id
+Main Wall,0,Concrete,2400mm,120mm,1800mm,0mm,0mm,0mm,
+Upper Cabinet,1,Plywood,1600mm,450mm,900mm,300mm,120mm,650mm,
+Left Side Panel,2,Plywood,18mm,450mm,900mm,0mm,0mm,0mm,PL-001
+Right Side Panel,2,Plywood,18mm,450mm,900mm,1582mm,0mm,0mm,PL-002
+Top Panel,2,Plywood,1564mm,450mm,18mm,18mm,0mm,882mm,PL-003
+Bottom Panel,2,Plywood,1564mm,450mm,18mm,18mm,0mm,0mm,PL-004
+Middle Shelf,2,Laminate,1564mm,420mm,18mm,18mm,15mm,430mm,PL-005
+Back Panel,2,HDF,1564mm,12mm,864mm,18mm,438mm,18mm,PL-006

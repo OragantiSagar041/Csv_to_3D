@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NestUp CSV to 3D Viewer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <script type="importmap">
+      {
+        "imports": {
+          "three": "{{ url_for('static', filename='three.module.js') }}",
+          "three/addons/": "{{ url_for('static', filename='') }}"
+        }
+      }
+    </script>
+</head>
+
+<body>
+  <main class="app-shell">
+    <aside class="sidebar">
+      <section class="hero">
+        <p class="eyebrow">NestUp Assignment</p>
+        <h1>CSV to 3D Cabinet Viewer</h1>
+        <p class="intro">
+          Upload a CSV and generate the required 3D scene: wall, cabinet, and planks positioned from the source data.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Upload Data</h2>
+        <form id="convertForm" class="upload-form" enctype="multipart/form-data">
+          <label class="field">
+            <span>CSV file</span>
+            <input id="csvFile" name="csv_file" type="file" accept=".csv,text/csv" />
+          </label>
+
+          <label class="field">
+            <span>Or paste CSV</span>
+            <textarea id="csvText" name="csv_text" rows="10"
+              placeholder="Entity Name,Level,Material,LenX,LenY,LenZ,X,Y,Z,plank_id"></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="submit">Generate 3D Model</button>
+            <button id="loadSampleButton" class="secondary" type="button">Load Sample</button>
+          </div>
+        </form>
+
+        <div id="statusMessage" class="status hidden"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Scene Summary</h2>
+        <div id="summaryGrid" class="summary-grid">
+          <article class="summary-card">
+            <h3>Source</h3>
+            <p id="summarySource">No data loaded</p>
+          </article>
+          <article class="summary-card">
+            <h3>Rows</h3>
+            <p id="summaryRows">0</p>
+          </article>
+          <article class="summary-card">
+            <h3>Cabinets</h3>
+            <p id="summaryCabinets">0</p>
+          </article>
+          <article class="summary-card">
+            <h3>Planks</h3>
+            <p id="summaryPlanks">0</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Validation Logs</h2>
+        <ul id="validationLogs" class="log-list empty-list">
+          <li>No conversion run yet.</li>
+        </ul>
+      </section>
+    </aside>
+
+    <section class="viewer-area">
+      <div class="viewer-header">
+        <div>
+          <p class="eyebrow">Required Output</p>
+          <h2>Interactive 3D Scene</h2>
+        </div>
+        <div class="legend">
+          <span><i class="swatch wall"></i>Wall</span>
+          <span><i class="swatch cabinet"></i>Cabinet</span>
+          <span><i class="swatch plank"></i>Plank</span>
+        </div>
+      </div>
+
+      <div id="viewer" class="viewer-canvas"></div>
+
+      <div class="bottom-panels">
+        <article class="panel">
+          <h2>Model JSON</h2>
+          <pre id="resultJson">Run a conversion to inspect the generated JSON.</pre>
+        </article>
+
+        <article class="panel">
+          <h2>Material Groups</h2>
+          <ul id="materialGroups" class="log-list empty-list">
+            <li>No grouped materials yet.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.__INITIAL_RESULT__ = {{ result | tojson if result else 'null' }};
+    window.__SAMPLE_CSV__ = `Entity Name,Level,Material,LenX,LenY,LenZ,X,Y,Z,plank_id
+Main Wall,0,Concrete,2400mm,120mm,1800mm,0mm,0mm,0mm,
+Upper Cabinet,1,Plywood,1600mm,450mm,900mm,300mm,120mm,650mm,
+Left Side Panel,2,Plywood,18mm,450mm,900mm,0mm,0mm,0mm,PL-001
+Right Side Panel,2,Plywood,18mm,450mm,900mm,1582mm,0mm,0mm,PL-002
+Top Panel,2,Plywood,1564mm,450mm,18mm,18mm,0mm,882mm,PL-003
+Bottom Panel,2,Plywood,1564mm,450mm,18mm,18mm,0mm,0mm,PL-004
+Middle Shelf,2,Laminate,1564mm,420mm,18mm,18mm,15mm,430mm,PL-005
+Back Panel,2,HDF,1564mm,12mm,864mm,18mm,438mm,18mm,PL-006`;
+  </script>
+  <script type="module" src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>
